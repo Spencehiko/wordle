@@ -96,6 +96,10 @@ export default defineComponent({
         grid-auto-rows: 3em;
         gap: 0.25em;
         justify-content: center;
+        bottom: 10px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
     .key {
         font-size: inherit;
@@ -112,6 +116,9 @@ export default defineComponent({
         border-radius: 0.25em;
         cursor: pointer;
         user-select: none;
+        &.large {
+            grid-column: span 3;
+        }
         > svg {
             width: 1.75em;
             height: 1.75em;
@@ -122,9 +129,6 @@ export default defineComponent({
         &:focus {
             --lightness-offset: 10%;
         }
-    }
-    .key.large {
-        grid-column: span 3;
     }
 }
 </style>

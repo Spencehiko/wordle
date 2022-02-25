@@ -2,7 +2,13 @@
     <div class="wordle">
         <div class="guess">
             <div class="row" v-for="i in 5" :key="i">
-                <div class="tile empty" v-for="j in 5" :key="j"></div>
+                <input
+                    class="tile empty"
+                    v-for="j in 5"
+                    :key="j"
+                    disabled
+                    v-model="guess[i - 1][j - 1]"
+                />
             </div>
         </div>
         <div data-keyboard class="keyboard">
@@ -62,8 +68,43 @@ export default defineComponent({
     name: 'Wordle',
     data() {
         return {
+            guess: ['', '', '', '', ''],
             words: words,
-            targets: targets
+            targets: targets,
+            row: 1,
+        }
+    },
+    created() {
+        window.addEventListener('keydown', (e) => {
+            if (this.row !== 6) {
+                if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
+                    alert('Complete the word!');
+                }
+                if (this.guess[this.row - 1].length < 5) {
+                    if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
+                        this.guess[this.row - 1] = this.guess[this.row - 1] + e.key;
+                    }
+                }
+                // enter
+                if (e.keyCode === 13 && this.guess[this.row - 1].length === 5) {
+                    if (this.validateGuess(this.guess[this.row - 1])) {
+                        this.row++;
+                    } else {
+                      alert('Word is not in word list');
+                    }
+                }
+                // backspace
+                if (e.keyCode === 8 && this.guess[this.row - 1].length > 0) {
+                    this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
+                }
+            } else {
+              alert('Gameover! refresh to restart');
+            }
+        });
+    },
+    methods: {
+        validateGuess(val: string) {
+            return words.includes(val);
         }
     },
 });
@@ -84,8 +125,18 @@ export default defineComponent({
                 width: 75px;
                 border: none;
                 display: inline-flex;
+                caret-color: transparent;
                 &.empty {
                     border: 2px solid #3a3a3c;
+                    background: transparent;
+                    color: #fff;
+                    text-align: center;
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                }
+                &:hover {
+                    cursor: pointer;
                 }
             }
         }

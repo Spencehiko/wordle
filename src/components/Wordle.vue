@@ -1,11 +1,18 @@
 <template>
     <div class="wordle">
+        {{ target }}
         <div class="guess">
             <div class="row" v-for="i in 5" :key="i">
                 <input
-                    class="tile empty"
                     v-for="j in 5"
                     :key="j"
+                    class="tile"
+                    :class="{
+                        empty: guess[i - 1].length < j,
+                        wrong: check[i - 1][j - 1] === -1,
+                        position: check[i - 1][j - 1] === 0,
+                        success: check[i - 1][j - 1] === 1,
+                    }"
                     disabled
                     v-model="guess[i - 1][j - 1]"
                 />
@@ -69,10 +76,21 @@ export default defineComponent({
     data() {
         return {
             guess: ['', '', '', '', ''],
+            check: [
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+            ],
             words: words,
+            target: '',
             targets: targets,
             row: 1,
         }
+    },
+    beforeMount() {
+        this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
     },
     created() {
         window.addEventListener('keydown', (e) => {
@@ -87,24 +105,35 @@ export default defineComponent({
                 }
                 // enter
                 if (e.keyCode === 13 && this.guess[this.row - 1].length === 5) {
-                    if (this.validateGuess(this.guess[this.row - 1])) {
-                        this.row++;
-                    } else {
-                      alert('Word is not in word list');
-                    }
+                    this.validateGuess(this.guess[this.row - 1]);
                 }
                 // backspace
                 if (e.keyCode === 8 && this.guess[this.row - 1].length > 0) {
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-              alert('Gameover! refresh to restart');
+                alert('Gameover! refresh to restart');
             }
         });
     },
     methods: {
         validateGuess(val: string) {
-            return words.includes(val);
+            val = val.toLocaleUpperCase('tr-TR').toLowerCase();
+            if (!words.includes(val)) {
+                alert('Word is not in word list');
+                return;
+            }
+            for (let i = 0; i < 5; i++) {
+                if (val.charAt(i) === this.target.charAt(i)) {
+                    this.check[this.row - 1][i] = 1
+                // if two letters are the same fix!
+                } else if (this.target.includes(val.charAt(i))) {
+                    this.check[this.row - 1][i] = 0
+                } else {
+                    this.check[this.row - 1][i] = -1
+                }
+            }
+            this.row++;
         }
     },
 });
@@ -126,14 +155,25 @@ export default defineComponent({
                 border: none;
                 display: inline-flex;
                 caret-color: transparent;
+                color: #fff;
+                text-align: center;
+                font-size: 24px;
+                text-transform: uppercase;
+                font-weight: 600;
+                padding: 2px;
                 &.empty {
                     border: 2px solid #3a3a3c;
                     background: transparent;
-                    color: #fff;
-                    text-align: center;
-                    font-size: 24px;
-                    text-transform: uppercase;
-                    font-weight: 600;
+                    padding: 0;
+                }
+                &.success {
+                    background: #538d4e;
+                }
+                &.position {
+                    background: #b59f3b;
+                }
+                &.wrong {
+                    background: #939598;
                 }
                 &:hover {
                     cursor: pointer;

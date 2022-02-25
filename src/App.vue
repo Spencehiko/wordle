@@ -21,13 +21,16 @@ body {
     margin: 0;
 }
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Clear Sans', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    background: #2c3e50;
+    background: hsl(240, 3%, 7%);
+    color: #fff;
     width: 100%;
     height: calc(100vh - 60px);
     padding-top: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 </style>

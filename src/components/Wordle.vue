@@ -64,6 +64,7 @@
                 </svg>
             </button>
         </div>
+        <div class="alertbox" v-if="alert">{{ alertMessage }}</div>
     </div>
     {{ target }}
 </template>
@@ -90,6 +91,8 @@ export default defineComponent({
             target: '',
             targets: targets,
             row: 1,
+            alertMessage: '',
+            alert: false,
         }
     },
     beforeMount() {
@@ -100,7 +103,8 @@ export default defineComponent({
         window.addEventListener('keydown', (e) => {
             if (this.row !== 6) {
                 if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
-                    alert('Complete the word!');
+                    this.alertMessage = 'Complete the word!';
+                    this.showAlert();
                 }
                 if (this.guess[this.row - 1].length < 5) {
                     if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
@@ -116,19 +120,27 @@ export default defineComponent({
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-                // create gameover alert
-                console.log('Gameover! refresh to restart');
+                this.alertMessage = 'Gameover! refresh to restart';
+                this.showAlert();
             }
         });
     },
     methods: {
         validateGuess(val: string) {
+            console.log(this.target);
+            console.log(val);
+            if(this.target === val) {
+                this.check[this.row - 1] = [1, 1, 1, 1, 1]
+                this.alertMessage = 'Congratulations! You win!';
+                this.showAlert();
+                this.row = 6;
+                return;
+            }
             val = val.toLocaleUpperCase('tr-TR').toLowerCase();
             const temp = this.target.split('');
-            console.log(temp);
             if (!words.includes(val)) {
-                // create alert
-                console.log('Word is not in word list');
+                this.alertMessage = 'Word is not in word list';
+                this.showAlert();
                 return;
             }
             for (let i = 0; i < 5; i++) {
@@ -142,6 +154,12 @@ export default defineComponent({
                 }
             }
             this.row++;
+        },
+        async showAlert() {
+            this.alert = true;
+            setTimeout(() => {
+                this.alert = false;
+            }, 1500);
         }
     },
 });
@@ -150,6 +168,8 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .wordle {
+    position: relative;
+    height: calc(100% - 50px);
     .header {
         width: 100%;
         height: 30px;
@@ -233,6 +253,18 @@ export default defineComponent({
         &:focus {
             --lightness-offset: 10%;
         }
+    }
+    .alertbox {
+        height: 30px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        color: #000;
+        padding: 10px 10px 0;
+        border-radius: 10px;
+        font-weight: 700;
     }
 }
 </style>

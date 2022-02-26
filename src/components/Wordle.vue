@@ -1,6 +1,5 @@
 <template>
     <div class="wordle">
-        {{ target }}
         <div class="guess">
             <div class="row" v-for="i in 5" :key="i">
                 <input
@@ -63,6 +62,7 @@
             </button>
         </div>
     </div>
+    {{ target }}
 </template>
 
 <script lang="ts">
@@ -126,7 +126,7 @@ export default defineComponent({
             for (let i = 0; i < 5; i++) {
                 if (val.charAt(i) === this.target.charAt(i)) {
                     this.check[this.row - 1][i] = 1
-                // if two letters are the same fix!
+                    // if two letters are the same fix!
                 } else if (this.target.includes(val.charAt(i))) {
                     this.check[this.row - 1][i] = 0
                 } else {
@@ -193,7 +193,8 @@ export default defineComponent({
         transform: translateX(-50%);
     }
     .key {
-        font-size: inherit;
+        font-size: 14px;
+        font-weight: 700;
         grid-column: span 2;
         border: none;
         padding: 0;

@@ -1,5 +1,8 @@
 <template>
     <div class="wordle">
+        <div class="header">
+            <h3>WORDLE</h3>
+        </div>
         <div class="guess">
             <div class="row" v-for="i in 5" :key="i">
                 <input
@@ -91,6 +94,7 @@ export default defineComponent({
     },
     beforeMount() {
         this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
+        // this.target = 'fever'
     },
     created() {
         window.addEventListener('keydown', (e) => {
@@ -112,23 +116,27 @@ export default defineComponent({
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-                alert('Gameover! refresh to restart');
+                // create gameover alert
+                console.log('Gameover! refresh to restart');
             }
         });
     },
     methods: {
         validateGuess(val: string) {
             val = val.toLocaleUpperCase('tr-TR').toLowerCase();
+            const temp = this.target.split('');
+            console.log(temp);
             if (!words.includes(val)) {
-                alert('Word is not in word list');
+                // create alert
+                console.log('Word is not in word list');
                 return;
             }
             for (let i = 0; i < 5; i++) {
-                if (val.charAt(i) === this.target.charAt(i)) {
+                if (val.charAt(i) === temp[i]) {
                     this.check[this.row - 1][i] = 1
                     // if two letters are the same fix!
-                } else if (this.target.includes(val.charAt(i))) {
-                    this.check[this.row - 1][i] = 0
+                } else if (temp.includes(val.charAt(i))) {
+                    this.check[this.row - 1][i] = 0;
                 } else {
                     this.check[this.row - 1][i] = -1
                 }
@@ -142,9 +150,15 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .wordle {
+    .header {
+        width: 100%;
+        height: 30px;
+        border-bottom: 2px solid #fff;
+        margin: auto 0;
+    }
     .guess {
         display: inline-block;
-        margin: 0 auto;
+        margin: 60px auto;
         .row {
             margin-top: 5px;
             display: flex;
@@ -161,11 +175,9 @@ export default defineComponent({
                 text-transform: uppercase;
                 font-weight: 600;
                 padding: 2px;
-                &.empty {
-                    border: 2px solid #3a3a3c;
-                    background: transparent;
-                    padding: 0;
-                }
+                border: 2px solid #3a3a3c;
+                background: transparent;
+                padding: 0;
                 &.success {
                     background: #538d4e;
                 }

@@ -28,8 +28,7 @@ body {
     background: hsl(240, 3%, 7%);
     color: #fff;
     width: 100%;
-    height: calc(100vh - 60px);
-    padding-top: 60px;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
 }

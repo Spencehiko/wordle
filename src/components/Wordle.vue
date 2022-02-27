@@ -337,7 +337,6 @@ export default defineComponent({
     },
     beforeMount() {
         this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
-        this.target = 'fever'
     },
     created() {
         window.addEventListener('keydown', (e) => {

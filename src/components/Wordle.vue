@@ -379,7 +379,7 @@ export default defineComponent({
                 return;
             }
             this.updateLetters(val);
-            console.log('1', this.check[this.row - 1]);
+            // validation logic
             temp.forEach((letter: string, index: number) => {
                 let foundIndex = -1;
                 for (let i = 0; i < 5; i++) {
@@ -394,19 +394,6 @@ export default defineComponent({
                     }
                 }
             });
-            console.log('2', this.check[this.row - 1]);
-
-            // for (let i = 0; i < 5; i++) {
-            //     if (val.charAt(i) === temp[i] && !temp2[i]) {
-            //         temp2[i] = 1;
-            //         this.check[this.row - 1][i] = 1
-            //     } else if (temp.includes(val.charAt(i)) && !temp2[i]) {
-            //         temp2[i] = 1;
-            //         this.check[this.row - 1][i] = 0;
-            //     } else {
-            //         this.check[this.row - 1][i] = -1
-            //     }
-            // }
             if (this.row === 6) {
                 this.showAlert(false, 'Gameover! The word was ' + this.target + '... Refresh to restart', 3000);
             }

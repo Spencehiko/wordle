@@ -359,7 +359,7 @@ export default defineComponent({
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-                this.showAlert(false, 'Gameover! The word was ' + this.target + '... Refresh to restart', 1500);
+                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
             }
         });
     },
@@ -383,19 +383,20 @@ export default defineComponent({
             temp.forEach((letter: string, index: number) => {
                 let foundIndex = -1;
                 for (let i = 0; i < 5; i++) {
-                    if(letter === val.charAt(i) && i === index) {
-                        if(foundIndex > -1) {
+                    if (letter === val.charAt(i) && i === index) {
+                        if (foundIndex > -1) {
                             this.check[this.row - 1][foundIndex] = -2
                         }
                         this.check[this.row - 1][i] = 1
-                    } else if(letter === val.charAt(i) && i !== index && temp[i] !== val.charAt(i)) {
+                    } else if (letter === val.charAt(i) && i !== index && temp[i] !== val.charAt(i)) {
                         foundIndex = i;
                         this.check[this.row - 1][i] = 0
                     }
                 }
             });
+            this.check[this.row - 1] = this.check[this.row - 1].map((el) => el === -2 ? -1 : el)
             if (this.row === 6) {
-                this.showAlert(false, 'Gameover! The word was ' + this.target + '... Refresh to restart', 3000);
+                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
             }
             this.row++;
         },

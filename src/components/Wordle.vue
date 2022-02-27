@@ -4,7 +4,12 @@
             <h3>WORDLE</h3>
         </div>
         <div class="guess">
-            <div class="row" v-for="i in 5" :key="i">
+            <div
+                class="row"
+                v-for="i in 6"
+                :key="i"
+                :class="{ shake: shakeRow[i] }"
+            >
                 <input
                     v-for="j in 5"
                     :key="j"
@@ -66,7 +71,6 @@
         </div>
         <div class="alertbox" v-if="alert">{{ alertMessage }}</div>
     </div>
-    {{ target }}
 </template>
 
 <script lang="ts">
@@ -79,8 +83,10 @@ export default defineComponent({
     name: 'Wordle',
     data() {
         return {
-            guess: ['', '', '', '', ''],
+            letters: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            guess: ['', '', '', '', '', ''],
             check: [
+                [-2, -2, -2, -2, -2],
                 [-2, -2, -2, -2, -2],
                 [-2, -2, -2, -2, -2],
                 [-2, -2, -2, -2, -2],
@@ -93,6 +99,7 @@ export default defineComponent({
             row: 1,
             alertMessage: '',
             alert: false,
+            shakeRow: [false, false, false, false, false, false],
         }
     },
     beforeMount() {
@@ -101,10 +108,9 @@ export default defineComponent({
     },
     created() {
         window.addEventListener('keydown', (e) => {
-            if (this.row !== 6) {
+            if (this.row !== 7) {
                 if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
-                    this.alertMessage = 'Complete the word!';
-                    this.showAlert();
+                    this.showAlert(false, 'Complete the word!');
                 }
                 if (this.guess[this.row - 1].length < 5) {
                     if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
@@ -120,27 +126,22 @@ export default defineComponent({
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-                this.alertMessage = 'Gameover! refresh to restart';
-                this.showAlert();
+                this.showAlert(false, 'Gameover! refresh to restart');
             }
         });
     },
     methods: {
         validateGuess(val: string) {
-            console.log(this.target);
-            console.log(val);
-            if(this.target === val) {
+            if (this.target === val) {
                 this.check[this.row - 1] = [1, 1, 1, 1, 1]
-                this.alertMessage = 'Congratulations! You win!';
-                this.showAlert();
+                this.showAlert(true, 'Congratulations! You win!');
                 this.row = 6;
                 return;
             }
             val = val.toLocaleUpperCase('tr-TR').toLowerCase();
             const temp = this.target.split('');
             if (!words.includes(val)) {
-                this.alertMessage = 'Word is not in word list';
-                this.showAlert();
+                this.showAlert(false, 'Word is not in word list');
                 return;
             }
             for (let i = 0; i < 5; i++) {
@@ -150,15 +151,25 @@ export default defineComponent({
                 } else if (temp.includes(val.charAt(i))) {
                     this.check[this.row - 1][i] = 0;
                 } else {
+                    this.letters[i] = -1;
                     this.check[this.row - 1][i] = -1
                 }
             }
             this.row++;
         },
-        async showAlert() {
+        showAlert(type: boolean, message: string) {
+            if (!type)
+                this.shake();
+            this.alertMessage = message
             this.alert = true;
             setTimeout(() => {
                 this.alert = false;
+            }, 1500);
+        },
+        shake() {
+            this.shakeRow[this.row] = true;
+            setTimeout(() => {
+                this.shakeRow[this.row] = false;
             }, 1500);
         }
     },
@@ -183,6 +194,9 @@ export default defineComponent({
             margin-top: 5px;
             display: flex;
             grid-gap: 5px;
+            &.shake {
+                animation: shake 250ms ease-in-out;
+            }
             .tile {
                 height: 75px;
                 width: 75px;
@@ -198,14 +212,18 @@ export default defineComponent({
                 border: 2px solid #3a3a3c;
                 background: transparent;
                 padding: 0;
+                transition: background-color 4s ease, transform 1s ease;
                 &.success {
-                    background: #538d4e;
+                    transform: rotateX(-180deg) scaleY(-1);
+                    background-color: #538d4e;
                 }
                 &.position {
-                    background: #b59f3b;
+                    transform: rotateX(-180deg) scaleY(-1);
+                    background-color: #b59f3b;
                 }
                 &.wrong {
-                    background: #939598;
+                    transform: rotateX(-180deg) scaleY(-1);
+                    background-color: #939598;
                 }
                 &:hover {
                     cursor: pointer;
@@ -265,6 +283,31 @@ export default defineComponent({
         padding: 10px 10px 0;
         border-radius: 10px;
         font-weight: 700;
+    }
+    @keyframes shake {
+        10% {
+            transform: translateX(-5%);
+        }
+
+        30% {
+            transform: translateX(5%);
+        }
+
+        50% {
+            transform: translateX(-7.5%);
+        }
+
+        70% {
+            transform: translateX(7.5%);
+        }
+
+        90% {
+            transform: translateX(-5%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
     }
 }
 </style>

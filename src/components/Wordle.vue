@@ -15,7 +15,6 @@
                     :key="j"
                     class="tile"
                     :class="{
-                        empty: guess[i - 1].length < j,
                         wrong: check[i - 1][j - 1] === -1,
                         position: check[i - 1][j - 1] === 0,
                         success: check[i - 1][j - 1] === 1,
@@ -26,35 +25,269 @@
             </div>
         </div>
         <div data-keyboard class="keyboard">
-            <button class="key" data-key="Q">Q</button>
-            <button class="key" data-key="W">W</button>
-            <button class="key" data-key="E">E</button>
-            <button class="key" data-key="R">R</button>
-            <button class="key" data-key="T">T</button>
-            <button class="key" data-key="Y">Y</button>
-            <button class="key" data-key="U">U</button>
-            <button class="key" data-key="I">I</button>
-            <button class="key" data-key="O">O</button>
-            <button class="key" data-key="P">P</button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[16] === -1,
+                    position: letters[16] === 0,
+                    success: letters[16] === 1,
+                }"
+            >
+                Q
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[22] === -1,
+                    position: letters[22] === 0,
+                    success: letters[22] === 1,
+                }"
+            >
+                W
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[4] === -1,
+                    position: letters[4] === 0,
+                    success: letters[4] === 1,
+                }"
+            >
+                E
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[17] === -1,
+                    position: letters[17] === 0,
+                    success: letters[17] === 1,
+                }"
+            >
+                R
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[19] === -1,
+                    position: letters[19] === 0,
+                    success: letters[19] === 1,
+                }"
+            >
+                T
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[24] === -1,
+                    position: letters[24] === 0,
+                    success: letters[24] === 1,
+                }"
+            >
+                Y
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[20] === -1,
+                    position: letters[20] === 0,
+                    success: letters[20] === 1,
+                }"
+            >
+                U
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[8] === -1,
+                    position: letters[8] === 0,
+                    success: letters[8] === 1,
+                }"
+            >
+                I
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[14] === -1,
+                    position: letters[14] === 0,
+                    success: letters[14] === 1,
+                }"
+            >
+                O
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[15] === -1,
+                    position: letters[15] === 0,
+                    success: letters[15] === 1,
+                }"
+            >
+                P
+            </button>
             <div class="space"></div>
-            <button class="key" data-key="A">A</button>
-            <button class="key" data-key="S">S</button>
-            <button class="key" data-key="D">D</button>
-            <button class="key" data-key="F">F</button>
-            <button class="key" data-key="G">G</button>
-            <button class="key" data-key="H">H</button>
-            <button class="key" data-key="J">J</button>
-            <button class="key" data-key="K">K</button>
-            <button class="key" data-key="L">L</button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[0] === -1,
+                    position: letters[0] === 0,
+                    success: letters[0] === 1,
+                }"
+            >
+                A
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[18] === -1,
+                    position: letters[18] === 0,
+                    success: letters[18] === 1,
+                }"
+            >
+                S
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[3] === -1,
+                    position: letters[3] === 0,
+                    success: letters[3] === 1,
+                }"
+            >
+                D
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[5] === -1,
+                    position: letters[5] === 0,
+                    success: letters[5] === 1,
+                }"
+            >
+                F
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[6] === -1,
+                    position: letters[6] === 0,
+                    success: letters[6] === 1,
+                }"
+            >
+                G
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[7] === -1,
+                    position: letters[7] === 0,
+                    success: letters[7] === 1,
+                }"
+            >
+                H
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[9] === -1,
+                    position: letters[9] === 0,
+                    success: letters[9] === 1,
+                }"
+            >
+                J
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[10] === -1,
+                    position: letters[10] === 0,
+                    success: letters[10] === 1,
+                }"
+            >
+                K
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[11] === -1,
+                    position: letters[11] === 0,
+                    success: letters[11] === 1,
+                }"
+            >
+                L
+            </button>
             <div class="space"></div>
             <button data-enter class="key large">Enter</button>
-            <button class="key" data-key="Z">Z</button>
-            <button class="key" data-key="X">X</button>
-            <button class="key" data-key="C">C</button>
-            <button class="key" data-key="V">V</button>
-            <button class="key" data-key="B">B</button>
-            <button class="key" data-key="N">N</button>
-            <button class="key" data-key="M">M</button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[25] === -1,
+                    position: letters[25] === 0,
+                    success: letters[25] === 1,
+                }"
+            >
+                Z
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[23] === -1,
+                    position: letters[23] === 0,
+                    success: letters[23] === 1,
+                }"
+            >
+                X
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[2] === -1,
+                    position: letters[2] === 0,
+                    success: letters[2] === 1,
+                }"
+            >
+                C
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[21] === -1,
+                    position: letters[21] === 0,
+                    success: letters[21] === 1,
+                }"
+            >
+                V
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[1] === -1,
+                    position: letters[1] === 0,
+                    success: letters[1] === 1,
+                }"
+            >
+                B
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[13] === -1,
+                    position: letters[13] === 0,
+                    success: letters[13] === 1,
+                }"
+            >
+                N
+            </button>
+            <button
+                class="key"
+                :class="{
+                    wrong: letters[12] === -1,
+                    position: letters[12] === 0,
+                    success: letters[12] === 1,
+                }"
+            >
+                M
+            </button>
             <button data-delete class="key large">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +316,7 @@ export default defineComponent({
     name: 'Wordle',
     data() {
         return {
-            letters: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            letters: [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2],
             guess: ['', '', '', '', '', ''],
             check: [
                 [-2, -2, -2, -2, -2],
@@ -110,7 +343,7 @@ export default defineComponent({
         window.addEventListener('keydown', (e) => {
             if (this.row !== 7) {
                 if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
-                    this.showAlert(false, 'Complete the word!');
+                    this.showAlert(false, 'Complete the word!', 1500);
                 }
                 if (this.guess[this.row - 1].length < 5) {
                     if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
@@ -126,24 +359,26 @@ export default defineComponent({
                     this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
                 }
             } else {
-                this.showAlert(false, 'Gameover! refresh to restart');
+                this.showAlert(false, 'Gameover! The word was ' + this.target + '... Refresh to restart', 1500);
             }
         });
     },
     methods: {
         validateGuess(val: string) {
             if (this.target === val) {
-                this.check[this.row - 1] = [1, 1, 1, 1, 1]
-                this.showAlert(true, 'Congratulations! You win!');
-                this.row = 6;
+                this.check[this.row - 1] = [1, 1, 1, 1, 1];
+                this.showAlert(true, 'Congratulations! You win!', 1500);
+                this.row = 7;
+                this.updateLetters(val);
                 return;
             }
             val = val.toLocaleUpperCase('tr-TR').toLowerCase();
             const temp = this.target.split('');
             if (!words.includes(val)) {
-                this.showAlert(false, 'Word is not in word list');
+                this.showAlert(false, 'Word is not in word list', 1500);
                 return;
             }
+            this.updateLetters(val);
             for (let i = 0; i < 5; i++) {
                 if (val.charAt(i) === temp[i]) {
                     this.check[this.row - 1][i] = 1
@@ -151,20 +386,34 @@ export default defineComponent({
                 } else if (temp.includes(val.charAt(i))) {
                     this.check[this.row - 1][i] = 0;
                 } else {
-                    this.letters[i] = -1;
                     this.check[this.row - 1][i] = -1
                 }
             }
+            if (this.row === 6) {
+                this.showAlert(false, 'Gameover! The word was ' + this.target + '... Refresh to restart', 3000);
+            }
             this.row++;
         },
-        showAlert(type: boolean, message: string) {
+        updateLetters(val: string) {
+            const temp = this.target.split('');
+            for (let i = 0; i < 5; i++) {
+                if (val.charAt(i) === temp[i]) {
+                    this.letters[val.charCodeAt(i) - 97] = 1
+                } else if (temp.includes(val.charAt(i))) {
+                    this.letters[val.charCodeAt(i) - 97] = 0;
+                } else {
+                    this.letters[val.charCodeAt(i) - 97] = -1
+                }
+            }
+        },
+        showAlert(type: boolean, message: string, duration: number) {
             if (!type)
                 this.shake();
             this.alertMessage = message
             this.alert = true;
             setTimeout(() => {
                 this.alert = false;
-            }, 1500);
+            }, duration);
         },
         shake() {
             this.shakeRow[this.row] = true;
@@ -258,6 +507,15 @@ export default defineComponent({
         border-radius: 0.25em;
         cursor: pointer;
         user-select: none;
+        &.success {
+            background-color: #538d4e;
+        }
+        &.position {
+            background-color: #b59f3b;
+        }
+        &.wrong {
+            background-color: #3a3a3c;
+        }
         &.large {
             grid-column: span 3;
         }

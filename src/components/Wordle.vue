@@ -387,7 +387,7 @@ export default defineComponent({
                             this.check[this.row - 1][foundIndex] = -2
                         }
                         this.check[this.row - 1][i] = 1
-                    } else if (letter === val.charAt(i) && i !== index && temp[i] !== val.charAt(i)) {
+                    } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2 && foundIndex === -1) {
                         foundIndex = i;
                         this.check[this.row - 1][i] = 0
                     }

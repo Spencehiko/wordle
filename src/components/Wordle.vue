@@ -24,7 +24,7 @@
                 />
             </div>
         </div>
-        <div data-keyboard class="keyboard">
+        <div class="keyboard">
             <button
                 class="key"
                 :class="{
@@ -32,6 +32,8 @@
                     position: letters[16] === 0,
                     success: letters[16] === 1,
                 }"
+                type="button"
+                @click="addLetter('q')"
             >
                 Q
             </button>
@@ -42,6 +44,8 @@
                     position: letters[22] === 0,
                     success: letters[22] === 1,
                 }"
+                type="button"
+                @click="addLetter('w')"
             >
                 W
             </button>
@@ -52,6 +56,8 @@
                     position: letters[4] === 0,
                     success: letters[4] === 1,
                 }"
+                type="button"
+                @click="addLetter('e')"
             >
                 E
             </button>
@@ -62,6 +68,8 @@
                     position: letters[17] === 0,
                     success: letters[17] === 1,
                 }"
+                type="button"
+                @click="addLetter('r')"
             >
                 R
             </button>
@@ -72,6 +80,8 @@
                     position: letters[19] === 0,
                     success: letters[19] === 1,
                 }"
+                type="button"
+                @click="addLetter('t')"
             >
                 T
             </button>
@@ -82,6 +92,8 @@
                     position: letters[24] === 0,
                     success: letters[24] === 1,
                 }"
+                type="button"
+                @click="addLetter('y')"
             >
                 Y
             </button>
@@ -92,6 +104,8 @@
                     position: letters[20] === 0,
                     success: letters[20] === 1,
                 }"
+                type="button"
+                @click="addLetter('u')"
             >
                 U
             </button>
@@ -102,6 +116,8 @@
                     position: letters[8] === 0,
                     success: letters[8] === 1,
                 }"
+                type="button"
+                @click="addLetter('ı')"
             >
                 I
             </button>
@@ -112,6 +128,8 @@
                     position: letters[14] === 0,
                     success: letters[14] === 1,
                 }"
+                type="button"
+                @click="addLetter('o')"
             >
                 O
             </button>
@@ -122,6 +140,8 @@
                     position: letters[15] === 0,
                     success: letters[15] === 1,
                 }"
+                type="button"
+                @click="addLetter('p')"
             >
                 P
             </button>
@@ -133,6 +153,8 @@
                     position: letters[0] === 0,
                     success: letters[0] === 1,
                 }"
+                type="button"
+                @click="addLetter('a')"
             >
                 A
             </button>
@@ -143,6 +165,8 @@
                     position: letters[18] === 0,
                     success: letters[18] === 1,
                 }"
+                type="button"
+                @click="addLetter('s')"
             >
                 S
             </button>
@@ -153,6 +177,8 @@
                     position: letters[3] === 0,
                     success: letters[3] === 1,
                 }"
+                type="button"
+                @click="addLetter('d')"
             >
                 D
             </button>
@@ -163,6 +189,8 @@
                     position: letters[5] === 0,
                     success: letters[5] === 1,
                 }"
+                type="button"
+                @click="addLetter('f')"
             >
                 F
             </button>
@@ -173,6 +201,8 @@
                     position: letters[6] === 0,
                     success: letters[6] === 1,
                 }"
+                type="button"
+                @click="addLetter('g')"
             >
                 G
             </button>
@@ -183,6 +213,8 @@
                     position: letters[7] === 0,
                     success: letters[7] === 1,
                 }"
+                type="button"
+                @click="addLetter('h')"
             >
                 H
             </button>
@@ -193,6 +225,8 @@
                     position: letters[9] === 0,
                     success: letters[9] === 1,
                 }"
+                type="button"
+                @click="addLetter('j')"
             >
                 J
             </button>
@@ -203,6 +237,8 @@
                     position: letters[10] === 0,
                     success: letters[10] === 1,
                 }"
+                type="button"
+                @click="addLetter('k')"
             >
                 K
             </button>
@@ -213,11 +249,13 @@
                     position: letters[11] === 0,
                     success: letters[11] === 1,
                 }"
+                type="button"
+                @click="addLetter('l')"
             >
                 L
             </button>
             <div class="space"></div>
-            <button data-enter class="key large">Enter</button>
+            <button class="key large" @click="submitGuess()" type="button">Enter</button>
             <button
                 class="key"
                 :class="{
@@ -225,6 +263,8 @@
                     position: letters[25] === 0,
                     success: letters[25] === 1,
                 }"
+                type="button"
+                @click="addLetter('z')"
             >
                 Z
             </button>
@@ -235,6 +275,8 @@
                     position: letters[23] === 0,
                     success: letters[23] === 1,
                 }"
+                type="button"
+                @click="addLetter('x')"
             >
                 X
             </button>
@@ -245,6 +287,8 @@
                     position: letters[2] === 0,
                     success: letters[2] === 1,
                 }"
+                type="button"
+                @click="addLetter('c')"
             >
                 C
             </button>
@@ -255,6 +299,8 @@
                     position: letters[21] === 0,
                     success: letters[21] === 1,
                 }"
+                type="button"
+                @click="addLetter('v')"
             >
                 V
             </button>
@@ -265,6 +311,8 @@
                     position: letters[1] === 0,
                     success: letters[1] === 1,
                 }"
+                type="button"
+                @click="addLetter('b')"
             >
                 B
             </button>
@@ -275,6 +323,8 @@
                     position: letters[13] === 0,
                     success: letters[13] === 1,
                 }"
+                type="button"
+                @click="addLetter('n')"
             >
                 N
             </button>
@@ -285,10 +335,12 @@
                     position: letters[12] === 0,
                     success: letters[12] === 1,
                 }"
+                type="button"
+                @click="addLetter('m')"
             >
                 M
             </button>
-            <button data-delete class="key large">
+            <button class="key large" @click="removeLetter()" type="button">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="24"
@@ -340,22 +392,23 @@ export default defineComponent({
     },
     created() {
         window.addEventListener('keydown', (e) => {
+            e.preventDefault();
             if (this.row !== 7) {
                 if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
                     this.showAlert(false, 'Complete the word!', 1500);
                 }
                 if (this.guess[this.row - 1].length < 5) {
                     if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
-                        this.guess[this.row - 1] = this.guess[this.row - 1] + e.key;
+                        this.addLetter(e.key);
                     }
                 }
                 // enter
                 if (e.keyCode === 13 && this.guess[this.row - 1].length === 5) {
-                    this.validateGuess(this.guess[this.row - 1]);
+                    this.submitGuess();
                 }
                 // backspace
                 if (e.keyCode === 8 && this.guess[this.row - 1].length > 0) {
-                    this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
+                    this.removeLetter();
                 }
             } else {
                 this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
@@ -363,7 +416,26 @@ export default defineComponent({
         });
     },
     methods: {
+        addLetter(letter: string) {
+            if (this.row === 7) {
+                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+            }
+            this.guess[this.row - 1] = this.guess[this.row - 1] + letter;
+        },
+        removeLetter() {
+            if (this.row === 7) {
+                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+            }
+            this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
+        },
+        submitGuess() {
+            if (this.row === 7) {
+                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+            }
+            this.validateGuess(this.guess[this.row - 1]);
+        },
         validateGuess(val: string) {
+            val = val.toLocaleUpperCase('tr-TR').toLowerCase();
             if (this.target === val) {
                 this.check[this.row - 1] = [1, 1, 1, 1, 1];
                 this.showAlert(true, 'Congratulations! You win!', 1500);
@@ -371,7 +443,6 @@ export default defineComponent({
                 this.updateLetters(val);
                 return;
             }
-            val = val.toLocaleUpperCase('tr-TR').toLowerCase();
             const temp = this.target.split('');
             if (!words.includes(val)) {
                 this.showAlert(false, 'Word is not in word list', 1500);
@@ -434,7 +505,7 @@ export default defineComponent({
 <style scoped lang="less">
 .wordle {
     position: relative;
-    height: calc(100% - 50px);
+    height: calc(100% - 30px);
     .header {
         width: 100%;
         height: 30px;
@@ -491,7 +562,7 @@ export default defineComponent({
         grid-auto-rows: 3em;
         gap: 0.25em;
         justify-content: center;
-        bottom: 10px;
+        bottom: 0;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);

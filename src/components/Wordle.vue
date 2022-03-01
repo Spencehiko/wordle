@@ -444,13 +444,18 @@ export default defineComponent({
                 this.check[this.row - 1] = [1, 1, 1, 1, 1];
                 this.showAlert(true, 'Congratulations! You win!', 1500);
                 this.row = 7;
-                this.updateLetters(val);
+                for (let i = 0; i < 5; i++) {
+                    this.letters[val.charCodeAt(i) - 97] = 1;
+                }
                 return;
             }
             const temp = this.target.split('');
             if (!words.includes(val)) {
-                this.showAlert(false, 'Word is not in word list', 1500);
+                this.showAlert(false, 'Word is not in the word list', 1500);
                 return;
+            }
+            for (let i = 0; i < 5; i++) {
+                this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === -2 ? -1 : this.letters[val.charCodeAt(i) - 97];
             }
             // validation logic
             temp.forEach((letter: string, index: number) => {
@@ -460,36 +465,21 @@ export default defineComponent({
                         if (foundIndex > -1) {
                             this.check[this.row - 1][foundIndex] = -2
                         }
+                        this.letters[val.charCodeAt(i) - 97] = 1
                         this.check[this.row - 1][i] = 1
                         break;
                     } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2 && foundIndex === -1) {
                         foundIndex = i;
                         this.check[this.row - 1][i] = 0
+                        this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === 1 ? 1 : 0
                     }
                 }
             });
-            this.updateLetters(val);
             this.check[this.row - 1] = this.check[this.row - 1].map((el) => el === -2 ? -1 : el)
             if (this.row === 6) {
                 this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
             }
             this.row++;
-        },
-        updateLetters(val: string) {
-            const temp = this.target.split('');
-            for (let i = 0; i < 5; i++) {
-                this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === -2 ? -1 : this.letters[val.charCodeAt(i) - 97];
-            }
-            temp.forEach((letter: string, index: number) => {
-                for (let i = 0; i < 5; i++) {
-                    if (letter === val.charAt(i) && i === index) {
-                        this.letters[val.charCodeAt(i) - 97] = 1
-                        break;
-                    } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2) {
-                        this.letters[val.charCodeAt(i) - 97] = 0
-                    }
-                }
-            });
         },
         showAlert(type: boolean, message: string, duration: number) {
             if (!type)
@@ -621,14 +611,14 @@ export default defineComponent({
         }
     }
     .alertbox {
-        height: 30px;
+        max-width: 250px;
         position: absolute;
         top: 60px;
         left: 50%;
         transform: translateX(-50%);
         background: #fff;
         color: #000;
-        padding: 10px 10px 0;
+        padding: 10px;
         border-radius: 10px;
         font-weight: 700;
     }

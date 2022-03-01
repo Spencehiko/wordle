@@ -255,7 +255,9 @@
                 L
             </button>
             <div class="space"></div>
-            <button class="key large" @click="submitGuess()" type="button">Enter</button>
+            <button class="key large" @click="submitGuess()" type="button">
+                Enter
+            </button>
             <button
                 class="key"
                 :class="{
@@ -389,6 +391,7 @@ export default defineComponent({
     },
     beforeMount() {
         this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
+        this.target = 'grasp'
     },
     created() {
         window.addEventListener('keydown', (e) => {
@@ -448,7 +451,6 @@ export default defineComponent({
                 this.showAlert(false, 'Word is not in word list', 1500);
                 return;
             }
-            this.updateLetters(val);
             // validation logic
             temp.forEach((letter: string, index: number) => {
                 let foundIndex = -1;
@@ -458,12 +460,14 @@ export default defineComponent({
                             this.check[this.row - 1][foundIndex] = -2
                         }
                         this.check[this.row - 1][i] = 1
+                        break;
                     } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2 && foundIndex === -1) {
                         foundIndex = i;
                         this.check[this.row - 1][i] = 0
                     }
                 }
             });
+            this.updateLetters(val);
             this.check[this.row - 1] = this.check[this.row - 1].map((el) => el === -2 ? -1 : el)
             if (this.row === 6) {
                 this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
@@ -473,14 +477,18 @@ export default defineComponent({
         updateLetters(val: string) {
             const temp = this.target.split('');
             for (let i = 0; i < 5; i++) {
-                if (val.charAt(i) === temp[i]) {
-                    this.letters[val.charCodeAt(i) - 97] = 1
-                } else if (temp.includes(val.charAt(i))) {
-                    this.letters[val.charCodeAt(i) - 97] = 0;
-                } else {
-                    this.letters[val.charCodeAt(i) - 97] = -1
-                }
+                this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === -2 ? -1 : this.letters[val.charCodeAt(i) - 97];
             }
+            temp.forEach((letter: string, index: number) => {
+                for (let i = 0; i < 5; i++) {
+                    if (letter === val.charAt(i) && i === index) {
+                        this.letters[val.charCodeAt(i) - 97] = 1
+                        break;
+                    } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2) {
+                        this.letters[val.charCodeAt(i) - 97] = 0
+                    }
+                }
+            });
         },
         showAlert(type: boolean, message: string, duration: number) {
             if (!type)

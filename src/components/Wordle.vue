@@ -1,7 +1,7 @@
 <template>
     <div class="wordle">
         <div class="header">
-            <h3>WORDLE</h3>
+            <h3>WORDLE INFINITE</h3>
         </div>
         <div class="game">
             <div class="guess">
@@ -393,7 +393,6 @@ export default defineComponent({
     },
     beforeMount() {
         this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
-        this.target = 'grasp'
     },
     created() {
         window.addEventListener('keydown', (e) => {
@@ -519,7 +518,7 @@ export default defineComponent({
     .header {
         width: 100%;
         height: 30px;
-        border-bottom: 2px solid #fff;
+        border-bottom: 2px solid #545454;
         margin: auto 0;
     }
     .game {

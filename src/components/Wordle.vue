@@ -516,7 +516,7 @@ export default defineComponent({
         flex-direction: column;
         .guess {
             display: inline-block;
-            margin: 60px auto;
+            margin: 30px auto 0;
             .row {
                 margin-top: 5px;
                 display: flex;
@@ -565,10 +565,12 @@ export default defineComponent({
             gap: 0.25em;
             justify-content: center;
             bottom: 0;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             width: 90%;
+            margin: 0 auto;
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
         }
         .key {
             font-size: 14px;
@@ -625,6 +627,7 @@ export default defineComponent({
 
     @media screen and (max-width: 430px) {
         .game {
+            margin: 10px 0;
             .guess {
                 .row {
                     .tile {
@@ -654,6 +657,53 @@ export default defineComponent({
                     .tile {
                         height: 40px;
                         width: 40px;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-height: 850px) {
+        .game {
+            .guess {
+                margin: 20px auto;
+            }
+            .keyboard {
+                margin: 0 auto;
+            }
+        }
+    }
+    @media screen and (max-height: 700px) {
+        .game {
+            .guess {
+                .row {
+                    .tile {
+                        height: 50px;
+                        width: 50px;
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (max-height: 590px) {
+        .game {
+            .guess {
+                .row {
+                    .tile {
+                        height: 40px;
+                        width: 40px;
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (max-height: 540px) {
+        .game {
+            .guess {
+                .row {
+                    .tile {
+                        height: 30px;
+                        width: 30px;
                     }
                 }
             }

@@ -1,24 +1,17 @@
 # wordle
+**Live Demo:  [wordle](http://wordle.hicaku.com/)**
 
-## Project setup
-```
-npm install
-```
+Hi! This is a **Vue.js + Vuex + TypeScript** implementation. In this app you can play the game Wordle.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+If you want to try it out you can simply click **Code > Copy Icon** and go to your Terminal/Cmd etc.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+    git clone THIS_REPOSITORY_LINK
 
-### Lints and fixes files
-```
-npm run lint
-```
+After cloning is finished, you **must** install the npm in order to run.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+    npm install
+    
+Then, you are ready to give it a shot! Just type
+
+    npm run serve
+and you will see the project in your browser!

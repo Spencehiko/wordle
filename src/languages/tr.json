@@ -1,5 +1,5 @@
 {
-    "header": "WORDLE SONSUZ",
+    "header": "SONSUZ WORDLE",
     "alertMessages": {
         "gameOver": "Oyun Bitti! Tekrar başlamak için sayfayı yenileyin. Cevap: ",
         "congratulations": "Tebrikler! Doğru cevabı buldunuz. Tekrar başlamak için sayfayı yenileyin",

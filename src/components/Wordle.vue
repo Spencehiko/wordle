@@ -885,6 +885,12 @@ export default defineComponent({
     }
 
     @media screen and (max-width: 430px) {
+        .header {
+            h3 {
+                left: 10px;
+                transform: translateX(0);
+            }
+        }
         .game {
             margin: 10px 0;
             .guess {
@@ -898,12 +904,6 @@ export default defineComponent({
         }
     }
     @media screen and (max-width: 370px) {
-        .header {
-            h3 {
-                left: 10px;
-                transform: translateX(0);
-            }
-        }
         .game {
             .guess {
                 .row {

@@ -3,7 +3,7 @@
 
 Hi! I was so tired of having only one game per day and I didn't want to wait ^^ So I developed this site. I used **Vue.js + Vuex + TypeScript**. In this app you can play the game 'Wordle' forever* in both English and Turkish!
 
-**: forever means 11972 English and 6703 Turkish words*
+**: forever means 11972 English and 6552 Turkish words*
 
 If you want to try it out you can simply click **Code > Copy Icon** and go to your Terminal/Cmd etc.
 

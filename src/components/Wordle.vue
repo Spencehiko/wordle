@@ -502,7 +502,7 @@ export default defineComponent({
         }
     },
     beforeMount() {
-        this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
+        this.restartGame();
     },
     created() {
         window.addEventListener('keydown', (e) => {
@@ -543,8 +543,7 @@ export default defineComponent({
         }
     },
     methods: {
-        setLanguage(lang: string) {
-            store.commit('setLanguage', lang);
+        restartGame() {
             this.letters = [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2];
             this.guess = ['', '', '', '', '', ''];
             this.check = [
@@ -555,7 +554,7 @@ export default defineComponent({
                 [-2, -2, -2, -2, -2],
                 [-2, -2, -2, -2, -2],
             ];
-            if (lang === 'tr') {
+            if (this.language === 'tr') {
                 this.words = wordsTr;
                 this.targets = targetsTr;
             } else {
@@ -564,6 +563,10 @@ export default defineComponent({
             }
             this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
             this.row = 1;
+        },
+        setLanguage(lang: string) {
+            store.commit('setLanguage', lang);
+            this.restartGame();
         },
         addLetter(letter: string) {
             if (this.row === 7) {

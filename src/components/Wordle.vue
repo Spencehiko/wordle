@@ -742,26 +742,27 @@ export default defineComponent({
             float: right;
             margin-right: 20px;
             button {
-                color: #fff;
+                color: #3a3a3c;
                 cursor: pointer;
                 margin: 0;
                 border: 0;
                 outline: 0;
-                background: #000;
+                background: #fff;
                 height: 30px;
                 width: 50px;
                 margin: 5px auto;
                 &.en {
-                    border-top-left-radius: 20px;
-                    border-bottom-left-radius: 20px;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    border-right: 1px solid #000;
                 }
                 &.tr {
-                    border-top-right-radius: 20px;
-                    border-bottom-right-radius: 20px;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
                 }
                 &.active {
-                    color: #444;
-                    background: #fff;
+                    color: #fff;
+                    background: #538d4e;
                 }
             }
         }
@@ -890,6 +891,9 @@ export default defineComponent({
                 left: 10px;
                 transform: translateX(0);
             }
+            .language-switch {
+                margin-right: 10px;
+            }
         }
         .game {
             margin: 10px 0;
@@ -916,6 +920,14 @@ export default defineComponent({
         }
     }
     @media screen and (max-width: 300px) {
+        .header {
+            .language-switch {
+                margin-right: 0;
+                button {
+                    width: 30px;
+                }
+            }
+        }
         .game {
             .guess {
                 .row {

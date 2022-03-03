@@ -508,9 +508,6 @@ export default defineComponent({
         window.addEventListener('keydown', (e) => {
             e.preventDefault();
             if (this.row !== 7) {
-                if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
-                    this.showAlert(false, this.languages[this.language].alertMessages.completeTheWord, 1500);
-                }
                 if (this.guess[this.row - 1].length < 5) {
                     if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123) || e.keyCode === 222) && this.language === 'en') {
                         this.addLetter(e.key);
@@ -519,7 +516,7 @@ export default defineComponent({
                     }
                 }
                 // enter
-                if (e.keyCode === 13 && this.guess[this.row - 1].length === 5) {
+                if (e.keyCode === 13) {
                     this.submitGuess();
                 }
                 // backspace
@@ -585,8 +582,9 @@ export default defineComponent({
             this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
         },
         submitGuess() {
-            if (this.row === 7) {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+            if(this.guess[this.row - 1].length < 5) {
+                this.showAlert(false, this.languages[this.language].alertMessages.completeTheWord, 1500);
+                return;
             }
             this.validateGuess(this.guess[this.row - 1]);
         },
@@ -620,6 +618,9 @@ export default defineComponent({
                     }
                 }
                 return;
+            }
+            if (this.row === 7) {
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
             const temp = this.target.split('');
             if (!this.words.includes(val)) {
@@ -727,12 +728,11 @@ export default defineComponent({
     height: calc(100% - 30px);
     .header {
         width: 100%;
-        height: 40px;
+        height: 55px;
         border-bottom: 2px solid #545454;
         margin: auto 0;
         h3 {
             display: inline-block;
-            margin: 10px auto;
             left: 50%;
             position: absolute;
             transform: translateX(-50%);
@@ -741,6 +741,7 @@ export default defineComponent({
             display: inline-flex;
             float: right;
             margin-right: 20px;
+            margin-top: 2px;
             button {
                 color: #3a3a3c;
                 cursor: pointer;
@@ -748,8 +749,8 @@ export default defineComponent({
                 border: 0;
                 outline: 0;
                 background: #fff;
-                height: 30px;
-                width: 50px;
+                height: 40px;
+                width: 55px;
                 margin: 5px auto;
                 &.en {
                     border-top-left-radius: 5px;

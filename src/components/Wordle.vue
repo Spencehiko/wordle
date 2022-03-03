@@ -1,7 +1,23 @@
 <template>
     <div class="wordle">
         <div class="header">
-            <h3>WORDLE INFINITE</h3>
+            <h3>{{ languages[language].header }}</h3>
+            <div class="language-switch">
+                <button
+                    class="en"
+                    :class="{ active: language === 'en' }"
+                    @click="setLanguage('en')"
+                >
+                    EN
+                </button>
+                <button
+                    class="tr"
+                    :class="{ active: language === 'tr' }"
+                    @click="setLanguage('tr')"
+                >
+                    TR
+                </button>
+            </div>
         </div>
         <div class="game">
             <div class="guess">
@@ -25,7 +41,7 @@
                     />
                 </div>
             </div>
-            <div class="keyboard">
+            <div class="keyboard" :class="language">
                 <button
                     class="key"
                     :class="{
@@ -146,6 +162,32 @@
                 >
                     P
                 </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[28] === -1,
+                        position: letters[28] === 0,
+                        success: letters[28] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('ğ')"
+                >
+                    Ğ
+                </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[30] === -1,
+                        position: letters[30] === 0,
+                        success: letters[30] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('ü')"
+                >
+                    Ü
+                </button>
                 <div class="space"></div>
                 <button
                     class="key"
@@ -255,6 +297,32 @@
                 >
                     L
                 </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[26] === -1,
+                        position: letters[26] === 0,
+                        success: letters[26] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('ş')"
+                >
+                    Ş
+                </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[31] === -1,
+                        position: letters[31] === 0,
+                        success: letters[31] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('i')"
+                >
+                    İ
+                </button>
                 <div class="space"></div>
                 <button class="key large" @click="submitGuess()" type="button">
                     Enter
@@ -343,6 +411,32 @@
                 >
                     M
                 </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[27] === -1,
+                        position: letters[27] === 0,
+                        success: letters[27] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('ö')"
+                >
+                    Ö
+                </button>
+                <button
+                    v-if="language === 'tr'"
+                    class="key tr"
+                    :class="{
+                        wrong: letters[29] === -1,
+                        position: letters[29] === 0,
+                        success: letters[29] === 1,
+                    }"
+                    type="button"
+                    @click="addLetter('ç')"
+                >
+                    Ç
+                </button>
                 <button class="key large" @click="removeLetter()" type="button">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -364,15 +458,29 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import store from '@/store';
+import store from '@/store';
 import words from '@/datas/words.json';
+import wordsTr from '@/datas/words-tr.json';
 import targets from '@/datas/targets.json';
+import targetsTr from '@/datas/targets-tr.json';
+import en from '@/languages/en.json';
+import tr from '@/languages/tr.json';
+
+export interface Language {
+    header: string,
+    alertMessages: {
+        gameOver: string,
+        congratulations: string,
+        notInWordList: string,
+        completeTheWord: string,
+    }
+}
 
 export default defineComponent({
     name: 'Wordle',
     data() {
         return {
-            letters: [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2],
+            letters: [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2],
             guess: ['', '', '', '', '', ''],
             check: [
                 [-2, -2, -2, -2, -2],
@@ -383,6 +491,8 @@ export default defineComponent({
                 [-2, -2, -2, -2, -2],
             ],
             words: words,
+            en: en as Language,
+            tr: tr as Language,
             target: '',
             targets: targets,
             row: 1,
@@ -399,10 +509,12 @@ export default defineComponent({
             e.preventDefault();
             if (this.row !== 7) {
                 if (e.keyCode === 13 && this.guess[this.row - 1].length < 5) {
-                    this.showAlert(false, 'Complete the word!', 1500);
+                    this.showAlert(false, this.languages[this.language].alertMessages.completeTheWord, 1500);
                 }
                 if (this.guess[this.row - 1].length < 5) {
-                    if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123))) {
+                    if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123) || e.keyCode === 222) && this.language === 'en') {
+                        this.addLetter(e.key);
+                    } else if (((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123) || e.keyCode === 186 || e.keyCode === 191 || (e.keyCode > 218 && e.keyCode < 223)) && this.language === 'tr') {
                         this.addLetter(e.key);
                     }
                 }
@@ -415,47 +527,120 @@ export default defineComponent({
                     this.removeLetter();
                 }
             } else {
-                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
         });
     },
+    computed: {
+        language() {
+            return store.getters.language;
+        },
+        languages(): any {
+            return {
+                "en": en,
+                "tr": tr
+            }
+        }
+    },
     methods: {
+        setLanguage(lang: string) {
+            store.commit('setLanguage', lang);
+            this.letters = [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2];
+            this.guess = ['', '', '', '', '', ''];
+            this.check = [
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+                [-2, -2, -2, -2, -2],
+            ];
+            if (lang === 'tr') {
+                this.words = wordsTr;
+                this.targets = targetsTr;
+            } else {
+                this.words = words;
+                this.targets = targets;
+            }
+            this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
+            this.row = 1;
+        },
         addLetter(letter: string) {
             if (this.row === 7) {
-                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
-            this.guess[this.row - 1] = this.guess[this.row - 1] + letter;
+            if (this.language === 'en') {
+                this.guess[this.row - 1] = this.guess[this.row - 1] + letter.toUpperCase();
+            } else {
+                this.guess[this.row - 1] = this.guess[this.row - 1] + letter.toLocaleUpperCase('tr-TR');
+            }
         },
         removeLetter() {
             if (this.row === 7) {
-                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
             this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
         },
         submitGuess() {
             if (this.row === 7) {
-                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
             this.validateGuess(this.guess[this.row - 1]);
         },
         validateGuess(val: string) {
-            val = val.toLocaleUpperCase('tr-TR').toLowerCase();
+            if (this.language === 'en') {
+                val = val.toLowerCase();
+            } else {
+                val = val.toLocaleLowerCase('tr-TR');
+            }
             if (this.target === val) {
                 this.check[this.row - 1] = [1, 1, 1, 1, 1];
-                this.showAlert(true, 'Congratulations! You win!', 1500);
+                this.showAlert(true, this.languages[this.language].alertMessages.congratulations, 1500);
                 this.row = 7;
                 for (let i = 0; i < 5; i++) {
-                    this.letters[val.charCodeAt(i) - 97] = 1;
+                    if (val.charCodeAt(i) === 351) {
+                        this.letters[26] = 1;
+                    } else if (val.charCodeAt(i) === 246) {
+                        this.letters[27] = 1;
+                    } else if (val.charCodeAt(i) === 287) {
+                        this.letters[28] = 1;
+                    } else if (val.charCodeAt(i) === 231) {
+                        this.letters[29] = 1;
+                    } else if (val.charCodeAt(i) === 252) {
+                        this.letters[30] = 1;
+                    } else if (val.charCodeAt(i) === 105 && this.language === 'tr') {
+                        this.letters[31] = 1;
+                    } else if (val.charCodeAt(i) === 305 && this.language === 'tr') {
+                        this.letters[8] = 1;
+                    } else {
+                        this.letters[val.charCodeAt(i) - 97] = 1;
+                    }
                 }
                 return;
             }
             const temp = this.target.split('');
-            if (!words.includes(val)) {
-                this.showAlert(false, 'Word is not in the word list', 1500);
+            if (!this.words.includes(val)) {
+                this.showAlert(false, this.languages[this.language].alertMessages.notInWordList, 1500);
                 return;
             }
             for (let i = 0; i < 5; i++) {
-                this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === -2 ? -1 : this.letters[val.charCodeAt(i) - 97];
+                if (val.charCodeAt(i) === 351) {
+                    this.letters[26] = this.letters[26] === -2 ? -1 : this.letters[26];
+                } else if (val.charCodeAt(i) === 246) {
+                    this.letters[27] = this.letters[27] === -2 ? -1 : this.letters[27];
+                } else if (val.charCodeAt(i) === 287) {
+                    this.letters[28] = this.letters[28] === -2 ? -1 : this.letters[28];
+                } else if (val.charCodeAt(i) === 231) {
+                    this.letters[29] = this.letters[29] === -2 ? -1 : this.letters[29];
+                } else if (val.charCodeAt(i) === 252) {
+                    this.letters[30] = this.letters[30] === -2 ? -1 : this.letters[30];
+                } else if (val.charCodeAt(i) === 105 && this.language === 'tr') {
+                    this.letters[31] = this.letters[31] === -2 ? -1 : this.letters[31];
+                } else if (val.charCodeAt(i) === 305 && this.language === 'tr') {
+                    this.letters[8] = this.letters[8] === -2 ? -1 : this.letters[8];
+                } else {
+                    this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === -2 ? -1 : this.letters[val.charCodeAt(i) - 97];
+                }
             }
             // validation logic
             temp.forEach((letter: string, index: number) => {
@@ -465,19 +650,51 @@ export default defineComponent({
                         if (foundIndex > -1) {
                             this.check[this.row - 1][foundIndex] = -2
                         }
-                        this.letters[val.charCodeAt(i) - 97] = 1
+                        if (val.charCodeAt(i) === 351) {
+                            this.letters[26] = 1;
+                        } else if (val.charCodeAt(i) === 246) {
+                            this.letters[27] = 1;
+                        } else if (val.charCodeAt(i) === 287) {
+                            this.letters[28] = 1;
+                        } else if (val.charCodeAt(i) === 231) {
+                            this.letters[29] = 1;
+                        } else if (val.charCodeAt(i) === 252) {
+                            this.letters[30] = 1;
+                        } else if (val.charCodeAt(i) === 105 && this.language === 'tr') {
+                            this.letters[31] = 1;
+                        } else if (val.charCodeAt(i) === 305 && this.language === 'tr') {
+                            this.letters[8] = 1;
+                        } else {
+                            this.letters[val.charCodeAt(i) - 97] = 1
+                        }
                         this.check[this.row - 1][i] = 1
                         break;
                     } else if (letter === val.charAt(i) && this.check[this.row - 1][i] === -2 && foundIndex === -1) {
                         foundIndex = i;
                         this.check[this.row - 1][i] = 0
-                        this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === 1 ? 1 : 0
+                        if (val.charCodeAt(i) === 351) {
+                            this.letters[26] = this.letters[26] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 246) {
+                            this.letters[27] = this.letters[27] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 287) {
+                            this.letters[28] = this.letters[28] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 231) {
+                            this.letters[29] = this.letters[29] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 252) {
+                            this.letters[30] = this.letters[30] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 105 && this.language === 'tr') {
+                            this.letters[31] = this.letters[31] === 1 ? 1 : 0;
+                        } else if (val.charCodeAt(i) === 305 && this.language === 'tr') {
+                            this.letters[8] = this.letters[8] === 1 ? 1 : 0;
+                        } else {
+                            this.letters[val.charCodeAt(i) - 97] = this.letters[val.charCodeAt(i) - 97] === 1 ? 1 : 0
+                        }
                     }
                 }
             });
             this.check[this.row - 1] = this.check[this.row - 1].map((el) => el === -2 ? -1 : el)
             if (this.row === 6) {
-                this.showAlert(true, 'Gameover! The word was ' + this.target + '... Refresh to restart', 2000);
+                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
             }
             this.row++;
         },
@@ -507,9 +724,44 @@ export default defineComponent({
     height: calc(100% - 30px);
     .header {
         width: 100%;
-        height: 30px;
+        height: 40px;
         border-bottom: 2px solid #545454;
         margin: auto 0;
+        h3 {
+            display: inline-block;
+            margin: 10px auto;
+            left: 50%;
+            position: absolute;
+            transform: translateX(-50%);
+        }
+        .language-switch {
+            display: inline-flex;
+            float: right;
+            margin-right: 20px;
+            button {
+                color: #fff;
+                cursor: pointer;
+                margin: 0;
+                border: 0;
+                outline: 0;
+                background: #000;
+                height: 30px;
+                width: 50px;
+                margin: 5px auto;
+                &.en {
+                    border-top-left-radius: 20px;
+                    border-bottom-left-radius: 20px;
+                }
+                &.tr {
+                    border-top-right-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                }
+                &.active {
+                    color: #444;
+                    background: #fff;
+                }
+            }
+        }
     }
     .game {
         display: flex;
@@ -533,13 +785,12 @@ export default defineComponent({
                     color: #fff;
                     text-align: center;
                     font-size: 24px;
-                    text-transform: uppercase;
                     font-weight: 600;
                     padding: 2px;
                     border: 2px solid #3a3a3c;
                     background: transparent;
                     padding: 0;
-                    transition: background-color 4s ease, transform 1s ease;
+                    transition: background-color 2s ease, transform 1s ease;
                     &.success {
                         transform: rotateX(-180deg) scaleY(-1);
                         background-color: #538d4e;
@@ -560,7 +811,6 @@ export default defineComponent({
         }
         .keyboard {
             display: grid;
-            grid-template-columns: repeat(20, minmax(auto, 1.25em));
             grid-auto-rows: 3em;
             gap: 0.25em;
             justify-content: center;
@@ -571,6 +821,12 @@ export default defineComponent({
             bottom: 10px;
             left: 0;
             right: 0;
+            &.en {
+                grid-template-columns: repeat(20, minmax(auto, 1.25em));
+            }
+            &.tr {
+                grid-template-columns: repeat(24, minmax(auto, 1.25em));
+            }
         }
         .key {
             font-size: 14px;
@@ -639,6 +895,12 @@ export default defineComponent({
         }
     }
     @media screen and (max-width: 370px) {
+        .header {
+            h3 {
+                left: 10px;
+                transform: translateX(0);
+            }
+        }
         .game {
             .guess {
                 .row {

@@ -1,0 +1,9 @@
+{
+    "header": "WORDLE SONSUZ",
+    "alertMessages": {
+        "gameOver": "Oyun Bitti! Tekrar başlamak için sayfayı yenileyin. Cevap: ",
+        "congratulations": "Tebrikler! Doğru cevabı buldunuz. Tekrar başlamak için sayfayı yenileyin",
+        "notInWordList": "Kelime, listede bulunamadı",
+        "completeTheWord": "Lütfen 5 harfli bir kelime yazın"
+    }
+}

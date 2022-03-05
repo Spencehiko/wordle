@@ -2,8 +2,16 @@
     "header": "SONSUZ WORDLE",
     "alertMessages": {
         "gameOver": "Oyun Bitti! Tekrar başlamak için sayfayı yenileyin. Cevap: ",
-        "congratulations": "Tebrikler! Doğru cevabı buldunuz. Tekrar başlamak için sayfayı yenileyin",
-        "notInWordList": "Kelime, listede bulunamadı",
+        "congratulations": "Tebrikler! Doğru cevabı buldun. Tekrar başlamak için sayfayı yenileyin",
+        "notInWordList": "Böyle bir kelime bulunamadı",
         "completeTheWord": "Lütfen 5 harfli bir kelime yazın"
+    },
+    "dialog": {
+        "theWordWas": "Aranan kelime:",
+        "congratulations": "Tebrikler! Tahminin doğru",
+        "tryAgain": "Doğru cevabı bulamadın :(",
+        "oneMoreGame": "Bir oyun daha?",
+        "yes": "EVET",
+        "moreYes": "YILDIZLI EVET"
     }
 }

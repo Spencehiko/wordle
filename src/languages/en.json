@@ -3,7 +3,15 @@
     "alertMessages": {
         "gameOver": "Gameover! Refresh to restart. The word was: ",
         "congratulations": "Congratulations! You guessed correctly. Refresh to restart",
-        "notInWordList": "Word is not in the word list",
+        "notInWordList": "Word is not found",
         "completeTheWord": "Please enter a 5 letter word"
+    },
+    "dialog": {
+        "theWordWas": "The word was:",
+        "congratulations": "Congratulations! You guessed it right",
+        "tryAgain": "You couldn't guess it right :(",
+        "oneMoreGame": "One more game?",
+        "yes": "YES",
+        "moreYes": "MORE YES"
     }
 }

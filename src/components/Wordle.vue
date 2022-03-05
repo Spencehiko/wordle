@@ -1,5 +1,5 @@
 <template>
-    <div class="wordle">
+    <div class="wordle" :class="{ modalOpen: modal }">
         <div class="header">
             <h3>{{ languages[language].header }}</h3>
             <div class="language-switch">
@@ -454,6 +454,38 @@
         </div>
         <div class="alertbox" v-if="alert">{{ alertMessage }}</div>
     </div>
+    <div class="modal" v-if="modal">
+        <div class="modal-header">Game Over!</div>
+        <div class="modal-body">
+            The Word Was
+            <div class="word">
+                <div class="tile" v-for="i in 5" :key="i">
+                    {{
+                        language === "en"
+                            ? target.split("")[i - 1].toLocaleUpperCase()
+                            : target.split("")[i - 1].toLocaleUpperCase("tr-TR")
+                    }}
+                </div>
+            </div>
+            <h5 class="congratulations" v-if="guessRight">
+                {{ languages[language].dialog.congratulations }}
+            </h5>
+            <h5 class="congratulations" v-else>
+                {{ languages[language].dialog.tryAgain }}
+            </h5>
+            <h4 class="one-more-game">
+                {{ languages[language].dialog.oneMoreGame }}
+            </h4>
+            <div class="buttons">
+                <button class="button" @click="restartGame()" type="button">
+                    {{ languages[language].dialog.yes }}
+                </button>
+                <button class="button" @click="restartGame()" type="button">
+                    {{ languages[language].dialog.moreYes }}
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -469,10 +501,13 @@ import tr from '@/languages/tr.json';
 export interface Language {
     header: string,
     alertMessages: {
-        gameOver: string,
         congratulations: string,
         notInWordList: string,
         completeTheWord: string,
+    },
+    dialog: {
+        congratulations: string,
+        oneMoreGame: string,
     }
 }
 
@@ -496,9 +531,12 @@ export default defineComponent({
             target: '',
             targets: targets,
             row: 1,
+            guessRight: false,
             alertMessage: '',
             alert: false,
             shakeRow: [false, false, false, false, false, false],
+            modal: true,
+            modalText: '',
         }
     },
     beforeMount() {
@@ -524,7 +562,9 @@ export default defineComponent({
                     this.removeLetter();
                 }
             } else {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
             }
         });
     },
@@ -560,6 +600,8 @@ export default defineComponent({
             }
             this.target = this.targets[Math.floor(Math.random() * this.targets.length)]
             this.row = 1;
+            this.guessRight = false;
+            this.modal = false;
         },
         setLanguage(lang: string) {
             store.commit('setLanguage', lang);
@@ -567,7 +609,9 @@ export default defineComponent({
         },
         addLetter(letter: string) {
             if (this.row === 7) {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
             }
             if (this.language === 'en') {
                 this.guess[this.row - 1] = this.guess[this.row - 1] + letter.toUpperCase();
@@ -577,13 +621,15 @@ export default defineComponent({
         },
         removeLetter() {
             if (this.row === 7) {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
             }
             this.guess[this.row - 1] = this.guess[this.row - 1].slice(0, -1);
         },
         submitGuess() {
-            if(this.guess[this.row - 1].length < 5) {
-                this.showAlert(false, this.languages[this.language].alertMessages.completeTheWord, 1500);
+            if (this.guess[this.row - 1].length < 5) {
+                this.showAlert(false, this.languages[this.language].alertMessages.completeTheWord, 1000);
                 return;
             }
             this.validateGuess(this.guess[this.row - 1]);
@@ -596,7 +642,8 @@ export default defineComponent({
             }
             if (this.target === val) {
                 this.check[this.row - 1] = [1, 1, 1, 1, 1];
-                this.showAlert(true, this.languages[this.language].alertMessages.congratulations, 1500);
+                this.showAlert(true, this.languages[this.language].alertMessages.congratulations, 1000);
+                this.guessRight = true;
                 this.row = 7;
                 for (let i = 0; i < 5; i++) {
                     if (val.charCodeAt(i) === 351) {
@@ -617,14 +664,19 @@ export default defineComponent({
                         this.letters[val.charCodeAt(i) - 97] = 1;
                     }
                 }
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
                 return;
             }
             if (this.row === 7) {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
             }
             const temp = this.target.split('');
             if (!this.words.includes(val)) {
-                this.showAlert(false, this.languages[this.language].alertMessages.notInWordList, 1500);
+                this.showAlert(false, this.languages[this.language].alertMessages.notInWordList, 1000);
                 return;
             }
             for (let i = 0; i < 5; i++) {
@@ -698,7 +750,9 @@ export default defineComponent({
             });
             this.check[this.row - 1] = this.check[this.row - 1].map((el) => el === -2 ? -1 : el)
             if (this.row === 6) {
-                this.showAlert(true, this.languages[this.language].alertMessages.gameOver + this.target, 2000);
+                setTimeout(() => {
+                    this.modal = true;
+                }, 1000);
             }
             this.row++;
         },
@@ -715,7 +769,7 @@ export default defineComponent({
             this.shakeRow[this.row] = true;
             setTimeout(() => {
                 this.shakeRow[this.row] = false;
-            }, 1500);
+            }, 1000);
         }
     },
 });
@@ -726,6 +780,10 @@ export default defineComponent({
 .wordle {
     position: relative;
     height: calc(100% - 30px);
+    &.modalOpen {
+        pointer-events: none;
+        filter: blur(10px);
+    }
     .header {
         width: 100%;
         height: 55px;
@@ -1011,6 +1069,84 @@ export default defineComponent({
 
         100% {
             transform: translateX(0);
+        }
+    }
+}
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 9999;
+    background-color: hsl(240, 3%, 7%);
+    width: 100%;
+    max-width: 75%;
+    text-align: center;
+    &-header {
+        font-size: 24px;
+        padding-bottom: 15px;
+    }
+    &-body {
+        font-size: 18px;
+    }
+    .word {
+        display: flex;
+        width: 90%;
+        margin: 15px 5%;
+        .tile {
+            flex-basis: calc(20% - 1px);
+            margin-right: 1px;
+            background: #538d4e;
+            border: #000;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 2;
+        }
+    }
+    .buttons {
+        padding-bottom: 10px;
+        button {
+            cursor: pointer;
+            padding: 5px 10px;
+            background: #000;
+            color: #fff;
+            transition: all .5s;
+            outline: none;
+            border: 1px dashed #538d4e;
+            margin-left: 10px;
+            font-size: 16px;
+            &:hover {
+                background: #538d4e;
+                border-color: #fff;
+            }
+        }
+        button:first-child {
+            margin-left: -10px;
+        }
+    }
+    @media screen and (max-width: 332px) {
+        .word {
+            width: 70%;
+            margin: 15px 15%;
+            .tile {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 288px) {
+        .word {
+            width: 70%;
+            margin: 15px 15%;
+            .tile {
+                padding: 10px;
+                font-size: 12px;
+            }
         }
     }
 }

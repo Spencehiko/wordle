@@ -1,8 +1,7 @@
 {
     "header": "SONSUZ WORDLE",
     "alertMessages": {
-        "gameOver": "Oyun Bitti! Tekrar başlamak için sayfayı yenileyin. Cevap: ",
-        "congratulations": "Tebrikler! Doğru cevabı buldun. Tekrar başlamak için sayfayı yenileyin",
+        "congratulations": "Tebrikler! Doğru cevabı buldun.",
         "notInWordList": "Böyle bir kelime bulunamadı",
         "completeTheWord": "Lütfen 5 harfli bir kelime yazın"
     },

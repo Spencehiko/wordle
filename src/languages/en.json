@@ -1,8 +1,7 @@
 {
     "header": "WORDLE INFINITE",
     "alertMessages": {
-        "gameOver": "Gameover! Refresh to restart. The word was: ",
-        "congratulations": "Congratulations! You guessed correctly. Refresh to restart",
+        "congratulations": "Congratulations! You guessed correctly",
         "notInWordList": "Word is not found",
         "completeTheWord": "Please enter a 5 letter word"
     },

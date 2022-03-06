@@ -6,6 +6,7 @@
         "completeTheWord": "Lütfen 5 harfli bir kelime yazın"
     },
     "dialog": {
+        "gameOver": "Oyun Bitti",
         "theWordWas": "Aranan kelime:",
         "congratulations": "Tebrikler! Tahminin doğru",
         "tryAgain": "Doğru cevabı bulamadın :(",

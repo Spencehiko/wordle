@@ -6,6 +6,7 @@
         "completeTheWord": "Please enter a 5 letter word"
     },
     "dialog": {
+        "gameOver": "Game Over",
         "theWordWas": "The word was:",
         "congratulations": "Congratulations! You guessed it right",
         "tryAgain": "You couldn't guess it right :(",

@@ -455,9 +455,9 @@
         <div class="alertbox" v-if="alert">{{ alertMessage }}</div>
     </div>
     <div class="modal" v-if="modal">
-        <div class="modal-header">Game Over!</div>
+        <div class="modal-header">{{ languages[language].dialog.gameOver }}</div>
         <div class="modal-body">
-            The Word Was
+            {{ languages[language].dialog.theWordWas }}
             <div class="word">
                 <div class="tile" v-for="i in 5" :key="i">
                     {{

@@ -473,9 +473,9 @@
             <h5 class="congratulations" v-else>
                 {{ languages[language].dialog.tryAgain }}
             </h5>
-            <h4 class="one-more-game">
+            <h5 class="one-more-game">
                 {{ languages[language].dialog.oneMoreGame }}
-            </h4>
+            </h5>
             <div class="buttons">
                 <button class="button" @click="restartGame()" type="button">
                     {{ languages[language].dialog.yes }}

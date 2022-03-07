@@ -900,10 +900,9 @@ export default defineComponent({
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: hsl(200, 1%, calc(51%));
+            background-color: #7E8081;
             color: white;
             fill: white;
-            text-transform: uppercase;
             border-radius: 0.25em;
             cursor: pointer;
             user-select: none;
